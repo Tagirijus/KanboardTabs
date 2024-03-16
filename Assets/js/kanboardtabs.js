@@ -1,19 +1,32 @@
-function switchTab(evt, tabName) {
-    var i, kanboardtabcontent, kanboardtablinks;
+// WEITER HIER: Switch geht nicht ..
 
-    // Get all elements with class="kanboardtabcontent" and hide them
-    kanboardtabcontent = document.getElementsByClassName("kanboardtabcontent");
-    for (i = 0; i < kanboardtabcontent.length; i++) {
-    kanboardtabcontent[i].style.display = "none";
-    }
+function switchTab(ev, chosenTabName) {
+    switchButtons(ev.currentTarget);
+    switchTabs(chosenTabName);
+}
 
-    // Get all elements with class="kanboardtablinks" and remove the class "active"
-    kanboardtablinks = document.getElementsByClassName("kanboardtablinks");
-    for (i = 0; i < kanboardtablinks.length; i++) {
-    kanboardtablinks[i].className = kanboardtablinks[i].className.replace(" active", "");
-    }
+function switchButtons(chosenButton) {
+    // get all elements inside class="kanboardtab", which are buttons
+    var kanboardtabButton = document.querySelectorAll('.kanboardtab button');
+    Array.prototype.forEach.call(kanboardtabButton, (el, i) => {
+        el.classList.remove('kanboardbuttonactive');
+        // yet show the chosenButton
+        if (el == chosenButton) {
+            el.classList.add('kanboardbuttonactive');
+        }
+    });
+}
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
+function switchTabs(chosenTabName) {
+    // get all tabs with class="kanboardtabcontent" and hide them
+    var kanboardtabcontent = document.querySelectorAll('.kanboardtabcontent');
+    Array.prototype.forEach.call(kanboardtabcontent, (el, i) => {
+        el.classList.remove('kanboardtabcontentshow');
+        el.classList.add('kanboardtabcontenthide');
+        // yet show the chosenTabName one again
+        if (el.id == chosenTabName) {
+            el.classList.remove('kanboardtabcontenthide');
+            el.classList.add('kanboardtabcontentshow');
+        }
+    });
 }
